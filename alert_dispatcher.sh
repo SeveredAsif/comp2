@@ -51,7 +51,7 @@ fetch_alerts() {
         
         # No active alerts
         if [ "$firing_count" -eq 0 ] && [ "$pending_count" -eq 0 ]; then
-            echo "  ✅ No active alerts" | tee -a "$LOG_FILE"
+            echo "   No active alerts" | tee -a "$LOG_FILE"
         fi
         
     else
@@ -65,7 +65,7 @@ fetch_alerts() {
         echo "  Alert Status: $firing_count firing, $pending_count pending" | tee -a "$LOG_FILE"
         
         if [ "$firing_count" -eq 0 ] && [ "$pending_count" -eq 0 ]; then
-            echo "  ✅ No active alerts" | tee -a "$LOG_FILE"
+            echo "   No active alerts" | tee -a "$LOG_FILE"
         else
             echo "  Raw response logged for analysis" | tee -a "$LOG_FILE"
             echo "$response" >> "$LOG_FILE"
