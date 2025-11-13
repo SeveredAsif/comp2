@@ -1,0 +1,31 @@
+name: CI Build and Push Docker Images
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Deploy to Azure VM
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: api_avengers
+          key: ${{ secrets.AZURE_VM_KEY }}
+          script: |
+            cd ./asif/login_node_deploy
+            docker compose down
+            git pull origin main
+            docker compose up --build -d
